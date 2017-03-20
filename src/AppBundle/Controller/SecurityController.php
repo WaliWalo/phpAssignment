@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -24,38 +25,20 @@ class SecurityController extends Controller
      */
     public function loginAction(Request $request)
     {
-        $user = new User();
-        $form = $this->createForm('AppBundle\Form\UserType', $user);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            if($this->canAuthenticate($user)){
-                $session = new Session();
-                $session->set('user',$user);
-                return $this->redirectToRoute('admin_index');
-            }else{
-                $this->addFlash('error','Wrong username or password.');
-            }
-        }
+        $authenticationUtils = $this->get('security.authentication_utils');
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
 
+        $templateName = 'default/';
         $argsArray = [
-            'user'=>$user,
-            'form'=>$form->createView(),
+            'last_username'=>$lastUsername,
+            'error'=>$error,
         ];
 
-
-        $templateName = 'default/login';
         return $this->render($templateName . '.html.twig',$argsArray);
     }
 
-    /**
-     * @param User $user
-     * @return bool
-     */
-    public function canAuthenticate(User $user){
-        $username = $user->getUsername();
-        $password = $user->getPassword();
 
-        return('admin'==$username)&&('admin'==$password);
-    }
+
 }

@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +34,7 @@ class UserController extends Controller
 
     /**
      * Creates a new user entity.
-     *
+     * @Security("has_role('ROLE_admin')")
      * @Route("/new", name="user_new")
      * @Method({"GET", "POST"})
      */
@@ -45,6 +46,11 @@ class UserController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $plainPassword = $user->getPassword();
+            $encoder = $this->container->get('security.password_encoder');
+            $encoded = $encoder->encodePassword($user, $plainPassword);
+
+            $user->setPassword($encoded);
             $em->persist($user);
             $em->flush($user);
 
@@ -75,7 +81,7 @@ class UserController extends Controller
 
     /**
      * Displays a form to edit an existing user entity.
-     *
+     * @Security("has_role('ROLE_admin')")
      * @Route("/{id}/edit", name="user_edit")
      * @Method({"GET", "POST"})
      */

@@ -3,18 +3,19 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class RecipeType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('username')->add('password', PasswordType::class)->add('role');
+        $builder->add('title')->add('summary')->add('state')->add('vote')->add('ingredient');
+
+
     }
     
     /**
@@ -23,7 +24,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User'
+            'data_class' => 'AppBundle\Entity\Recipe'
         ));
     }
 
@@ -32,7 +33,7 @@ class UserType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'AppBundle_user';
+        return 'AppBundle_recipe';
     }
 
 

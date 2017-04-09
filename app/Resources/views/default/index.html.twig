@@ -1,4 +1,43 @@
-<h1>HOME PAGE</h1>
-<a href="{{ path('user_new') }}">Create a new user</a>
-<a href="{{ path('login') }}">Login</a>
-<a href="{{ path('recipe_new') }}">new recipe</a>
+{% extends 'recipe/show.html.twig' %}
+{% block body %}
+    <h1>HOME PAGE</h1>
+    <a href="{{ path('user_new') }}">Create a new user</a>
+    <a href="{{ path('login') }}">Login</a>
+    <a href="{{ path('recipe_new') }}">new recipe</a>
+
+    <h1>Recipe Lists</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Title</th>
+            <th>Summary</th>
+            <th>State</th>
+            <th>Vote</th>
+            <th>Ingredient</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for recipe in recipes %}
+            <tr>
+                <td><a href="{{ path('recipe_show', { 'id': recipe.id }) }}">{{ recipe.id }}</a></td>
+                <td>{{ recipe.user.username }}</td>
+                <td>{{ recipe.title }}</td>
+                <td>{{ recipe.summary }}</td>
+                <td>{{ recipe.state }}</td>
+                <td>{{ recipe.vote }}</td>
+                <td>{{ recipe.ingredient }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('recipe_show', { 'id': recipe.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

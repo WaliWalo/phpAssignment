@@ -19,6 +19,13 @@ class HomeController extends Controller
      */
     public function showHome()
     {
-        return $this->render('default/index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+        $recipes = $em->getRepository('AppBundle:Recipe')->findAll();
+
+        return $this->render('default/index.html.twig', array(
+            'recipes' => $recipes,
+        ));
+
     }
 }

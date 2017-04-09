@@ -7,6 +7,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Username</th>
                 <th>Title</th>
                 <th>Summary</th>
                 <th>State</th>
@@ -19,6 +20,7 @@
         {% for recipe in recipes %}
             <tr>
                 <td><a href="{{ path('recipe_show', { 'id': recipe.id }) }}">{{ recipe.id }}</a></td>
+                <td>{{ recipe.user.username }}</td>
                 <td>{{ recipe.title }}</td>
                 <td>{{ recipe.summary }}</td>
                 <td>{{ recipe.state }}</td>

@@ -30,7 +30,7 @@ class SecurityController extends Controller
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        $templateName = 'default/';
+        $templateName = 'default/login';
         $argsArray = [
             'last_username'=>$lastUsername,
             'error'=>$error,

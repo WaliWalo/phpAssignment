@@ -2,9 +2,13 @@
 
 {% block body %}
     <h1>Recipe</h1>
-
+    {{ dump(recipe.vote) }}
     <table>
         <tbody>
+            <tr>
+                <th>User</th>
+                <td>{{ recipe.user.username }}</td>
+            </tr>
             <tr>
                 <th>Id</th>
                 <td>{{ recipe.id }}</td>
@@ -22,8 +26,17 @@
                 <td>{{ recipe.state }}</td>
             </tr>
             <tr>
-                <th>Vote</th>
-                <td>{{ recipe.vote }}</td>
+                {% if user != recipe.user %}
+                    <th>Vote</th>
+                    <td>
+                        <form action="{{ path('recipe_vote', { 'id':'x'}) }}">
+                        <input type="number" name="quantity" min="1" max="1" step="1"><input type="submit">
+                        </form>
+                    </td>
+                    {% else %}
+                        <th>Vote</th>
+                        <td>{{ recipe.vote }}</td>
+                {% endif %}
             </tr>
             <tr>
                 <th>Ingredient</th>
@@ -34,8 +47,9 @@
 
     <ul>
         <li>
-            <a href="{{ path('recipe_index') }}">Back to the list</a>
+            <a href="{{ path('homePage') }}">Back to the list</a>
         </li>
+        {% if user == recipe.user %}
         <li>
             <a href="{{ path('recipe_edit', { 'id': recipe.id }) }}">Edit</a>
         </li>
@@ -44,5 +58,6 @@
                 <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
+        {% endif %}
     </ul>
 {% endblock %}

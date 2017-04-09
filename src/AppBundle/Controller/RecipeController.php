@@ -52,6 +52,7 @@ class RecipeController extends Controller
 
         $recipe = new Recipe();
         $recipe->setUser($user);
+        $recipe->setVote(0);
         $form = $this->createForm('AppBundle\Form\RecipeType', $recipe);
         $form->handleRequest($request);
 
@@ -78,12 +79,28 @@ class RecipeController extends Controller
      */
     public function showAction(Recipe $recipe)
     {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
         $deleteForm = $this->createDeleteForm($recipe);
 
         return $this->render('recipe/show.html.twig', array(
             'recipe' => $recipe,
             'delete_form' => $deleteForm->createView(),
+            'user' => $user,
         ));
+    }
+
+    /**
+     * @Route("/", name="recipe_vote")
+     * @Method({"GET", "POST"})
+     */
+    public function submitVote(Recipe $recipe, $vote)
+    {
+        $recipe->setVote($vote);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($recipe);
+        $em->flush($recipe);
+        return $this->redirectToRoute('recipe_show', array('id' => $recipe->getId()));
     }
 
     /**

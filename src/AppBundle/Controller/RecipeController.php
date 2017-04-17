@@ -3,10 +3,14 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Recipe;
+use AppBundle\Form\RecipeType;
+use AppBundle\Form\Vote;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Recipe controller.
@@ -75,32 +79,33 @@ class RecipeController extends Controller
      * Finds and displays a recipe entity.
      *
      * @Route("/{id}", name="recipe_show")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
-    public function showAction(Recipe $recipe)
+    public function showAction(Request $request, Recipe $recipe)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $deleteForm = $this->createDeleteForm($recipe);
+        $formVote = $this->createForm(Vote::class, $recipe);
+        $formVote->handleRequest($request);
+        if ($formVote->isSubmitted() && $formVote->isValid()) {
+            $recipe->setVote($recipe->getVote()+1);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($recipe);
+            $em->flush($recipe);
+            return $this->render('recipe/show.html.twig', array(
+                'recipe' => $recipe,
+                'delete_form' => $deleteForm->createView(),
+                'formVote' =>$formVote->createView(),
+                'user' => $user,
+            ));}
 
         return $this->render('recipe/show.html.twig', array(
             'recipe' => $recipe,
             'delete_form' => $deleteForm->createView(),
+            'formVote' =>$formVote->createView(),
             'user' => $user,
         ));
-    }
-
-    /**
-     * @Route("/", name="recipe_vote")
-     * @Method({"GET", "POST"})
-     */
-    public function submitVote(Recipe $recipe, $vote)
-    {
-        $recipe->setVote($vote);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($recipe);
-        $em->flush($recipe);
-        return $this->redirectToRoute('recipe_show', array('id' => $recipe->getId()));
     }
 
     /**

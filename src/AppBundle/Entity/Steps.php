@@ -1,0 +1,377 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Steps
+ *
+ * @ORM\Table(name="steps")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\StepsRepository")
+ */
+class Steps
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="step_1", type="string", length=255, nullable=true)
+     */
+    private $step1;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="step_2", type="string", length=255, nullable=true)
+     */
+    private $step2;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="step_3", type="string", length=255, nullable=true)
+     */
+    private $step3;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="step_4", type="string", length=255, nullable=true)
+     */
+    private $step4;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="step_5", type="string", length=255, nullable=true)
+     */
+    private $step5;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="step_6", type="string", length=255, nullable=true)
+     */
+    private $step6;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="step_7", type="string", length=255, nullable=true)
+     */
+    private $step7;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="step_8", type="string", length=255, nullable=true)
+     */
+    private $step8;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="step_9", type="string", length=255, nullable=true)
+     */
+    private $step9;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="step_10", type="string", length=255, nullable=true)
+     */
+    private $step10;
+
+    /**
+     * @var int
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Recipe")
+     * @ORM\JoinColumn(name="recipe_id", referencedColumnName="id")
+     *
+     */
+    private $recipeID;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set step1
+     *
+     * @param string $step1
+     *
+     * @return Steps
+     */
+    public function setStep1($step1)
+    {
+        $this->step1 = $step1;
+
+        return $this;
+    }
+
+    /**
+     * Get step1
+     *
+     * @return string
+     */
+    public function getStep1()
+    {
+        return $this->step1;
+    }
+
+    /**
+     * Set step2
+     *
+     * @param string $step2
+     *
+     * @return Steps
+     */
+    public function setStep2($step2)
+    {
+        $this->step2 = $step2;
+
+        return $this;
+    }
+
+    /**
+     * Get step2
+     *
+     * @return string
+     */
+    public function getStep2()
+    {
+        return $this->step2;
+    }
+
+    /**
+     * Set step3
+     *
+     * @param string $step3
+     *
+     * @return Steps
+     */
+    public function setStep3($step3)
+    {
+        $this->step3 = $step3;
+
+        return $this;
+    }
+
+    /**
+     * Get step3
+     *
+     * @return string
+     */
+    public function getStep3()
+    {
+        return $this->step3;
+    }
+
+    /**
+     * Set step4
+     *
+     * @param string $step4
+     *
+     * @return Steps
+     */
+    public function setStep4($step4)
+    {
+        $this->step4 = $step4;
+
+        return $this;
+    }
+
+    /**
+     * Get step4
+     *
+     * @return string
+     */
+    public function getStep4()
+    {
+        return $this->step4;
+    }
+
+    /**
+     * Set step5
+     *
+     * @param string $step5
+     *
+     * @return Steps
+     */
+    public function setStep5($step5)
+    {
+        $this->step5 = $step5;
+
+        return $this;
+    }
+
+    /**
+     * Get step5
+     *
+     * @return string
+     */
+    public function getStep5()
+    {
+        return $this->step5;
+    }
+
+    /**
+     * Set step6
+     *
+     * @param string $step6
+     *
+     * @return Steps
+     */
+    public function setStep6($step6)
+    {
+        $this->step6 = $step6;
+
+        return $this;
+    }
+
+    /**
+     * Get step6
+     *
+     * @return string
+     */
+    public function getStep6()
+    {
+        return $this->step6;
+    }
+
+    /**
+     * Set step7
+     *
+     * @param string $step7
+     *
+     * @return Steps
+     */
+    public function setStep7($step7)
+    {
+        $this->step7 = $step7;
+
+        return $this;
+    }
+
+    /**
+     * Get step7
+     *
+     * @return string
+     */
+    public function getStep7()
+    {
+        return $this->step7;
+    }
+
+    /**
+     * Set step8
+     *
+     * @param string $step8
+     *
+     * @return Steps
+     */
+    public function setStep8($step8)
+    {
+        $this->step8 = $step8;
+
+        return $this;
+    }
+
+    /**
+     * Get step8
+     *
+     * @return string
+     */
+    public function getStep8()
+    {
+        return $this->step8;
+    }
+
+    /**
+     * Set step9
+     *
+     * @param string $step9
+     *
+     * @return Steps
+     */
+    public function setStep9($step9)
+    {
+        $this->step9 = $step9;
+
+        return $this;
+    }
+
+    /**
+     * Get step9
+     *
+     * @return string
+     */
+    public function getStep9()
+    {
+        return $this->step9;
+    }
+
+    /**
+     * Set step10
+     *
+     * @param string $step10
+     *
+     * @return Steps
+     */
+    public function setStep10($step10)
+    {
+        $this->step10 = $step10;
+
+        return $this;
+    }
+
+    /**
+     * Get step10
+     *
+     * @return string
+     */
+    public function getStep10()
+    {
+        return $this->step10;
+    }
+
+    /**
+     * Set recipeID
+     *
+     * @param integer $recipeID
+     *
+     * @return Steps
+     */
+    public function setRecipeID($recipeID)
+    {
+        $this->recipeID = $recipeID;
+
+        return $this;
+    }
+
+    /**
+     * Get recipeID
+     *
+     * @return int
+     */
+    public function getRecipeID()
+    {
+        return $this->recipeID;
+    }
+}
+

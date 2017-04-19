@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Steps list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Step1</th>
+                <th>Step2</th>
+                <th>Step3</th>
+                <th>Step4</th>
+                <th>Step5</th>
+                <th>Step6</th>
+                <th>Step7</th>
+                <th>Step8</th>
+                <th>Step9</th>
+                <th>Step10</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for step in steps %}
+            <tr>
+                <td><a href="{{ path('steps_show', { 'id': step.id }) }}">{{ step.id }}</a></td>
+                <td>{{ step.step1 }}</td>
+                <td>{{ step.step2 }}</td>
+                <td>{{ step.step3 }}</td>
+                <td>{{ step.step4 }}</td>
+                <td>{{ step.step5 }}</td>
+                <td>{{ step.step6 }}</td>
+                <td>{{ step.step7 }}</td>
+                <td>{{ step.step8 }}</td>
+                <td>{{ step.step9 }}</td>
+                <td>{{ step.step10 }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('steps_show', { 'id': step.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('steps_edit', { 'id': step.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('steps_new') }}">Create a new step</a>
+        </li>
+    </ul>
+{% endblock %}

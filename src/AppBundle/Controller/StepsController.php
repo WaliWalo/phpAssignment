@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Recipe;
 use AppBundle\Entity\Steps;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -33,13 +35,15 @@ class StepsController extends Controller
 
     /**
      * Creates a new step entity.
-     *
-     * @Route("/new", name="steps_new")
+     * @Security("has_role('ROLE_user')")
+     * @Route("/new/{id}", name="steps_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Recipe $recipe)
     {
         $step = new Steps();
+        $step->setRecipeID($recipe);
+
         $form = $this->createForm('AppBundle\Form\StepsType', $step);
         $form->handleRequest($request);
 
@@ -65,11 +69,13 @@ class StepsController extends Controller
      */
     public function showAction(Steps $step)
     {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         $deleteForm = $this->createDeleteForm($step);
 
         return $this->render('steps/show.html.twig', array(
             'step' => $step,
             'delete_form' => $deleteForm->createView(),
+            'user' => $user,
         ));
     }
 

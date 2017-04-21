@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Recipe;
+use AppBundle\Entity\Steps;
 use AppBundle\Form\RecipeType;
 use AppBundle\Form\Vote;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -65,7 +66,7 @@ class RecipeController extends Controller
             $em->persist($recipe);
             $em->flush($recipe);
 
-            return $this->redirectToRoute('recipe_show', array('id' => $recipe->getId()));
+            return $this->redirectToRoute('steps_new', array('id' => $recipe->getId()));
         }
 
         return $this->render('recipe/new.html.twig', array(
@@ -110,7 +111,7 @@ class RecipeController extends Controller
 
     /**
      * Displays a form to edit an existing recipe entity.
-     *
+     * @Security("has_role('ROLE_user')")
      * @Route("/{id}/edit", name="recipe_edit")
      * @Method({"GET", "POST"})
      */

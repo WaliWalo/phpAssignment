@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'steps/show.html.twig' %}
 
 {% block body %}
     <h1>Recipe</h1>
@@ -52,6 +52,9 @@
     <ul>
         <li>
             <a href="{{ path('homePage') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('steps_show', {'id': recipe.id}) }}">Steps</a>
         </li>
         {% if user == recipe.user %}
         <li>

@@ -13,7 +13,7 @@ class StepsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('step1')->add('step2')->add('step3')->add('step4')->add('step5')->add('step6')->add('step7')->add('step8')->add('step9')->add('step10')->add('recipeID')        ;
+        $builder->add('step1')->add('step2')->add('step3')->add('step4')->add('step5')->add('step6')->add('step7')->add('step8')->add('step9')->add('step10')        ;
     }
     
     /**

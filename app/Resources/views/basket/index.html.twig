@@ -1,12 +1,12 @@
-{% extends 'recipe/show.html.twig' %}
+{% extends 'base.html.twig' %}
 {% block body %}
-    <h1>HOME PAGE</h1>
-    <a href="{{ path('user_new') }}">Create a new user</a>
-    <a href="{{ path('login') }}">Login</a>
-    <a href="{{ path('recipe_new') }}">New recipe</a>
+    {% set basket_recipes = app.session.get('basket') %}
+    {{ dump(app.session.get('basket')) }}
 
-    <h1>Recipe Lists</h1>
-    <table>
+    {% if basket_recipes is null %}
+        <p> you have no recipes in your basket </p>
+    {% else %}
+        <table>
         <thead>
         <tr>
             <th>Id</th>
@@ -20,7 +20,9 @@
         </tr>
         </thead>
         <tbody>
-        {% for recipe in recipes %}
+
+            {% for recipe in basket_recipes %}
+
             <tr>
                 <td><a href="{{ path('recipe_show', { 'id': recipe.id }) }}">{{ recipe.id }}</a></td>
                 <td>{{ recipe.user.username }}</td>
@@ -35,12 +37,18 @@
                             <a href="{{ path('recipe_show', { 'id': recipe.id }) }}">show</a>
                         </li>
                         <li>
-                            <a href="{{ path('basket_add', { 'id': recipe.id }) }}">add to basket</a>
+                            <a href="{{ path('basket_delete', { 'id': recipe.id }) }}">remove</a>
                         </li>
                     </ul>
                 </td>
             </tr>
-        {% endfor %}
+
+            {% endfor %}
         </tbody>
-    </table>
+        </table>
+
+    {% endif %}
+    <p>
+        <a href="{{ path('basket_clear') }}">CLEAR all items in basket</a> </p>
+
 {% endblock %}

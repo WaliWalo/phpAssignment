@@ -46,6 +46,36 @@
                 <th>Ingredient</th>
                 <td>{{ recipe.ingredient }}</td>
             </tr>
+            <tr>
+                <th>Comments
+                {{ form_start(form) }}
+                </th>
+                <td>
+                {{ form_widget(form) }}
+                <input type="submit" value="Create" />
+                {{ form_end(form) }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+        <tr>
+            <th>User</th>
+            <th>Comment</th>
+            <th>Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for comment in comments %}
+        {% if recipe == comment.recipeId %}
+            <tr>
+                <td>{{ comment.user }}</td>
+                <td>{{ comment.title }}</td>
+                <td>{% if comment.time %}{{ comment.time|date('Y-m-d H:i') }}{% endif %}</td>
+            </tr>
+        {% endif %}
+        {% endfor %}
         </tbody>
     </table>
 

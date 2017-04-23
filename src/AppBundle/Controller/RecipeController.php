@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Comments;
 use AppBundle\Entity\Recipe;
 use AppBundle\Entity\Steps;
 use AppBundle\Form\RecipeType;
@@ -86,9 +87,39 @@ class RecipeController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
+        $comment = new Comments();
+        if($this->container->get('security.authorization_checker')==false){
+            $comment->setUser($user->getUsername());
+        }else
+        $comment->setUser($user);
+        $comment->setTime(new \DateTime("now"));
+        $comment->setRecipeId($recipe);
+        $form = $this->createForm('AppBundle\Form\CommentsType', $comment);
+        $form->handleRequest($request);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $comments = $em->getRepository('AppBundle:Comments')->findAll();
         $deleteForm = $this->createDeleteForm($recipe);
         $formVote = $this->createForm(Vote::class, $recipe);
         $formVote->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush($comment);
+            return $this->render('recipe/show.html.twig', array(
+                'recipe' => $recipe,
+                'delete_form' => $deleteForm->createView(),
+                'formVote' =>$formVote->createView(),
+                'user' => $user,
+                'comment' => $comment,
+                'form' => $form->createView(),
+                'comments' => $comments,
+            ));
+        }
+
+
         if ($formVote->isSubmitted() && $formVote->isValid()) {
             $recipe->setVote($recipe->getVote()+1);
             $em = $this->getDoctrine()->getManager();
@@ -99,6 +130,9 @@ class RecipeController extends Controller
                 'delete_form' => $deleteForm->createView(),
                 'formVote' =>$formVote->createView(),
                 'user' => $user,
+                'comment' => $comment,
+                'form' => $form->createView(),
+                'comments' => $comments,
             ));}
 
         return $this->render('recipe/show.html.twig', array(
@@ -106,6 +140,9 @@ class RecipeController extends Controller
             'delete_form' => $deleteForm->createView(),
             'formVote' =>$formVote->createView(),
             'user' => $user,
+            'comment' => $comment,
+            'form' => $form->createView(),
+            'comments' => $comments,
         ));
     }
 

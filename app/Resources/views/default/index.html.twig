@@ -2,9 +2,13 @@
 {% block body %}
     <h1>HOME PAGE</h1>
     <a href="{{ path('user_new') }}">Create a new user</a>
-    <a href="{{ path('login') }}">Login</a>
+    {% if app.user %}
+        <a href="logout">Logout</a>
+    {% else %}
+        <a href="{{ path('login') }}">Login</a>
+    {% endif %}
     <a href="{{ path('recipe_new') }}">New recipe</a>
-
+    <a href="{{ path('search') }}">Search</a>
     <h1>Recipe Lists</h1>
     <table>
         <thead>
